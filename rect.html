@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+
+body {
+  font: 10px sans-serif;
+  margin: 0;
+}
+
+path.line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+path.area {
+  fill: #e7e7e7;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.x.axis line {
+  stroke: #fff;
+}
+
+.x.axis .minor {
+  stroke-opacity: .5;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: #000;
+}
+
+</style>
+  <body>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript">
+var rectangleData = [
+   { "rx": 20, "ry": 20, "height": 20, "width": 20, "color" : "green" },
+   { "rx": 70, "ry": 70, "height": 20, "width": 20, "color" : "purple" }];
+
+//Create the SVG Viewport
+ var svgContainer = d3.select("body").append("svg")
+                                      .attr("width", 400)
+                                      .attr("height", 100);
+ 
+ //Create the Scale we will use for the Axis
+ var axisScale = d3.scale.linear()
+                          .domain([0, 100])
+                          .range([20, 380]);
+
+//Create the Axis
+var xAxis = d3.svg.axis()
+                   .scale(axisScale);
+
+
+//Create an SVG group Element for the Axis elements and call the xAxis function
+var xAxisGroup = svgContainer.append("g")
+                              .call(xAxis);
+var rectangleGroup = svgContainer.append("g");                              
+var rectangles = rectangleGroup.selectAll("rect")
+                             .data(rectangleData)
+                             .enter()
+                             .append("rect");
+
+var rectangleAttributes = rectangles
+                           .attr("x", function (d) { return d.rx; })
+                           .attr("y", function (d) { return d.ry; })
+                           .attr("height", function (d) { return d.height; })
+                           .attr("width", function (d) { return d.width; })
+                          .style("fill", function(d) { return d.color; });
+        </script>
+ 
